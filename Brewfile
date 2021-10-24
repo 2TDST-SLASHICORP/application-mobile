@@ -1,0 +1,7 @@
+tap "homebrew/bundle"
+tap "homebrew/core"
+brew "cocoapods"
+brew "htop"
+brew "node@14"
+brew "watchman"
+brew "yarn"

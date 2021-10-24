@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         justifyContent: 'center',
-        backgroundColor: '#23fcbe'
+        backgroundColor: '#ffffff',
     },
     view: {
         flex: 1,
@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        fontSize: 36,
+        fontSize: 18,
         marginVertical: 20,
+        fontWeight: '300'
     },
     inputView: {
         borderBottomWidth: 1,
