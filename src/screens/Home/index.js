@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, Image } from "react-native";
+import { SafeAreaView, View, Text, TouchableOpacity, FlatList, Image, Modal } from "react-native";
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import { TextInput } from 'react-native-paper'
 
 import UserContext from '../../context/Users/type';
 import { styles } from "./styles";
@@ -15,6 +16,9 @@ import { storeProducts, fetchProducts } from '../../api'
 function Home() {
     const [records, setRecords] = useState([])
     const [record, setRecord] = useState('')
+    const [modalVisible, setModalVisible] = useState(false)
+    const [imageLink, setImageLink] = useState('')
+    const [name, setName] = useState('')
 
     const { navigate } = useNavigation()
 
@@ -24,7 +28,10 @@ function Home() {
 
 
     function handleAddItem() {
-        storeProducts([...records, { id: Math.random(), image: "https://cdn.discordapp.com/attachments/758080680860057643/901893478827561020/Grupo_883x.png", name: "frutas", quantity: 632 }])
+        storeProducts([...records, { id: Math.random(), image: imageLink, name: name, quantity: 0 }])
+        setModalVisible(false);
+        setImageLink('')
+        setName('')
     }
 
     function handleSubmit() {
@@ -74,6 +81,21 @@ function Home() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: 'rgba(52, 52, 52, 0.8)' }}>
+                    <View style={{ backgroundColor: 'white', padding: 16, borderRadius: 8, width: RFPercentage(45) }}>
+                        <Text>Crie um item</Text>
+                        <TextInput style={{ height: 40, marginVertical: 12 }} placeholder="Link da imagem" onChangeText={(text) => setImageLink(text)} />
+                        <TextInput style={{ height: 40, marginBottom: 12 }} placeholder="Nome" onChangeText={(text) => setName(text)} />
+                        <TouchableOpacity onPress={handleAddItem} style={{ alignItems: "center", paddingVertical: 16, backgroundColor: '#23fcbe', width: '100%' }}><Text>Enviar</Text></TouchableOpacity>
+                    </View>
+
+                </View>
+            </Modal>
             <View style={styles.view}>
                 <View>
                     <TouchableOpacity onPress={() => { navigate('Login') }}>
@@ -93,7 +115,7 @@ function Home() {
                     <View style={{ padding: 8 }}>
                         <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
                             <Text style={styles.title}>Estoque</Text>
-                            <TouchableOpacity onPress={handleAddItem}>
+                            <TouchableOpacity onPress={() => setModalVisible(true)}>
                                 <AntDesign name="plus" size={24} color='#23fcbe' />
                             </TouchableOpacity>
                         </View>
